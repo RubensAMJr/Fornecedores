@@ -1,0 +1,164 @@
+﻿@model Teste.Controllers.FornecedorViewModel
+
+@{
+    ViewData["Title"] = "Fornecedor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container text-center">
+
+    @if (Model.Mensagem != null)
+    {
+        if (Model.Sucess)
+        {
+            <div class="alert alert-primary" role="alert">
+                @Model.Mensagem
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-danger" role="alert">
+                @Model.Mensagem
+            </div>
+        }
+    }
+
+    <div class="card card-login mx-auto mt-5">
+        <div class="card-header"><h1 class="display-2">Cadastro de Fornecedor</h1></div>
+        <div class="card-body">
+            <form asp-action="CadastraFornecedor" method="post">
+                <div class="form-group">
+                    <div class="form-label-group">
+                        <label id="lblInput">Empresa: </label>
+                        <select asp-for="Fornecedor.EmpresaFK" name="EmpresaFK" id="EmpresaFK" placeholder="Selecione" class="form-control" required="required" autofocus="autofocus">
+                            @foreach (var empresa in Model.Empresas)
+                            {
+                                <option value="@empresa.Id">@empresa.NomeFantasia - @empresa.CNPJ</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-label-group">
+                        <label id="lblInput">Nome: </label>
+                        <input asp-for="Fornecedor.Nome" type="text" name="Nome" id="Nome" class="form-control" required="required" autofocus="autofocus">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="radio">
+                        <label>
+                            <input asp-for="Fornecedor.TipoPessoa" value="1" type="radio" id="radioPessoaFisica" name="TipoPessoa" onclick="habilitaCamposPessoaFisica()" checked>Pessoa Física
+                        </label>
+                    </div>
+                    <div class="radio-">
+                        <label>
+                            <input asp-for="Fornecedor.TipoPessoa" value="2" type="radio" id="radioPessoaJuridica" name="TipoPessoa" onclick="habilitaCamposPessoJuridica()">Pessoa Jurídica
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-label-group">
+                        <label id="lblInput" class="lblFisica">CPF: </label>
+                        <input asp-for="Fornecedor.CPF" asp-format="{0:000.000.000-00}" type="text" name="CPF" id="CPF" class="form-control" required autofocus="autofocus">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-label-group">
+                        <label id="lblInput" class="lblJuridica" hidden>CNPJ: </label>
+                        <input asp-for="Fornecedor.CNPJ" type="text" name="CNPJ" id="CNPJ" class="form-control" hidden autofocus="autofocus">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-label-group">
+                        <label id="lblInput" class="lblFisica">RG: </label>
+                        <input asp-for="Fornecedor.RG" type="text" name="RG" id="RG" class="form-control" required autofocus="autofocus">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-label-group">
+                        <label id="lblInput" class="lblFisica">Data de nascimento: </label>
+                        <input asp-for="Fornecedor.DataNascimento" asp-format="{0:dd/MM/yyyy HH:mm}" type="date" name="DataNascimento" id="DataNascimento" class="form-control" placeholder="Data de Nascimento" required autofocus="autofocus">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-label-group">
+                        <label id="lblInput">Telefone comercial: </label>
+                        <input asp-for="Fornecedor.TelefoneComercial" type="text" name="TelefoneComercial" id="TelefoneComercial" class="form-control" autofocus="autofocus">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-label-group">
+                        <label id="lblInput">Telefone Residencial: </label>
+                        <input asp-for="Fornecedor.TelefoneResidencial" type="text" name="TelefoneResidencial" id="TelefoneResidencial" class="form-control" autofocus="autofocus">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-label-group">
+                        <label id="lblInput">Telefone pessoal: </label>
+                        <input asp-for="Fornecedor.TelefonePessoal" type="text" name="TelefonePessoal" id="TelefonePessoal" class="form-control" autofocus="autofocus">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#CPF').mask('000.000.000-00', { reverse: true });
+        $('#CNPJ').mask('99.999.999/9999-99', { reverse: true });
+        $('#RG').mask('99.999.999-9', { reverse: true });
+        $('#TelefoneComercial').mask('(00)0000-0000', { reverse: false });
+        $('#TelefoneResidencial').mask('(00)0000-0000', { reverse: false });
+        $('#TelefonePessoal').mask('(00)0000-0000', { reverse: false });
+    });
+
+    function habilitaCamposPessoaFisica() {
+        $('#CPF').removeAttr("hidden");
+        $('#CPF').prop("required", true);
+
+        $('#RG').prop("required", true);
+        $('#RG').removeAttr("hidden");
+
+        $('#DataNascimento').prop("required", true);
+        $('#DataNascimento').removeAttr("hidden");
+
+        $('#CNPJ').removeAttr("required");
+        $('#CNPJ').prop("hidden", true);
+
+        $('.lblFisica').removeAttr("hidden");
+        $('.lblJuridica').prop("hidden", true);
+
+
+    }
+
+    function habilitaCamposPessoJuridica(event) {
+        $('#CPF').prop("hidden", true);
+        $('#CPF').removeAttr("required");
+
+        $('#RG').removeAttr("required");
+        $('#RG').prop("hidden", true);
+
+        $('#DataNascimento').removeAttr("required");
+        $('#DataNascimento').prop("hidden", true);
+
+        $('#CNPJ').prop("required",true);
+        $('#CNPJ').removeAttr("hidden");
+
+        $('.lblFisica').prop("hidden", true);
+        $('.lblJuridica').removeAttr("hidden");
+    }
+
+</script>
+
+
+<style>
+    #lblInput {
+        float: left;
+        display:block;
+    }
+</style>
+

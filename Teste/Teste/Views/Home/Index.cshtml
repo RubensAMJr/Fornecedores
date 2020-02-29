@@ -1,0 +1,92 @@
+﻿@model Teste.Controllers.ListaFornecedoresViewModel
+
+@{
+    ViewData["Title"] = "Fornecedores";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container text-center">
+    <div class="card card-login mx-auto mt-5">
+        <div class="card-header"><h1 class="display-2">Lista de fornecedores</h1></div>
+        <h1>Filtro</h1>
+        <div class="container">
+            <form asp-action="Index" method="post">
+                <div class="form-group col">
+                    <div class="col-xs-3">
+                        <div class="form-label-group">
+                            <label for="FiltroNome">Nome: </label><input asp-for="FiltroNome" type="text" name="FiltroNome" id="FiltroNome" class="form-control" autofocus="autofocus">
+                        </div>
+                    </div>
+                    <div class="col-xs-3">
+                        <div class="form-label-group">
+                            <label for="FiltroCNPJ">CNPJ: </label><input asp-for="FiltroCNPJ" type="text" name="FiltroCNPJ" id="FiltroCNPJ" class="form-control" autofocus="autofocus">
+                        </div>
+                    </div>
+                    <div class="col-xs-3">
+                        <div class="form-label-group">
+                            <label for="FiltroCPF">CPF: </label><input asp-for="FiltroCPF" type="text" name="FiltroCPF" id="FiltroCPF" class="form-control" autofocus="autofocus">
+                        </div>
+                    </div>
+                    <div class="col-xs-3">
+                        <div class="form-label-group">
+                            <label for="FiltroDataCadastro">Data Cadastro: </label><input asp-for="FiltroDataCadastro" asp-format="{0:dd/MM/yyyy HH:mm}" type="date" name="FiltroDataCadastro" id="FiltroDataCadastro" class="form-control" autofocus="autofocus">
+                        </div>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success">Filtrar</button>
+            </form>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Empresa</th>
+                            <th>Nome</th>
+                            <th>RG</th>
+                            <th>CPF</th>
+                            <th>CNPJ</th>
+                            <th>Data de Cadastro</th>
+                            <th>Data de Nascimento</th>
+                            <th>Telefone Comercial</th>
+                            <th>Telefone Residencial</th>
+                            <th>Telefone Pessoal</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Empresa</th>
+                            <th>Nome</th>
+                            <th>RG</th>
+                            <th>CPF</th>
+                            <th>CNPJ</th>
+                            <th>Data de Cadastro</th>
+                            <th>Data de Nascimento</th>
+                            <th>Telefone Comercial</th>
+                            <th>Telefone Residencial</th>
+                            <th>Telefone Pessoal</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var fornecedor in Model.Fornecedores)
+                        {
+                        <tr id="@fornecedor.Id">
+                            <td>@fornecedor.Empresa.NomeFantasia</td>
+                            <td>@fornecedor.Nome</td>
+                            <td>@fornecedor.RG</td>
+                            <td>@fornecedor.CPF</td>
+                            <td>@fornecedor.CNPJ</td>
+                            <td>@fornecedor.DataCadastro</td>
+                            <td>@fornecedor.DataNascimento</td>
+                            <td>@fornecedor.TelefoneComercial</td>
+                            <td>@fornecedor.TelefoneResidencial</td>
+                            <td>@fornecedor.TelefonePessoal</td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

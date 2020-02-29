@@ -1,0 +1,66 @@
+﻿@model Teste.Controllers.EmpresaViewModel
+
+@{
+
+    ViewData["Title"] = "Empresa";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="container text-center">
+
+    @if (Model.Mensagem != null)
+    {
+        if (Model.Sucess)
+        {
+            <div class="alert alert-primary" role="alert">
+                @Model.Mensagem
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-danger" role="alert">
+                @Model.Mensagem
+            </div>
+        }
+    }
+
+    <div class="card card-login mx-auto mt-5">
+        <div class="card-header"><h1 class="display-2">Cadastro de Empresas</h1></div>
+        <div class="card-body">
+            <form asp-action="CadastraEmpresa" method="post">
+                <div class="form-group">
+                    <div class="form-label-group">
+                        <input asp-for="Empresa.CNPJ" type="text" name="CNPJ" id="CNPJ" class="form-control" placeholder="CNPJ" required="required" autofocus="autofocus">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-label-group">
+                        @*<input asp-for="UF" maxlength="2" type="text" name="UF" id="UF" class="form-control" placeholder="UF" required="required" autofocus="autofocus">*@
+                        <select asp-for="Empresa.UF" name="UF" id="UF" placeholder="Selecione" class="form-control" required="required" autofocus="autofocus">
+                            @for (int i = 0; i < 27; i++)
+                            {
+                                <option value="@ViewBag.uf[i]">@ViewBag.uf[i]</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-label-group">
+                        <input asp-for="Empresa.NomeFantasia" type="text" name="NomeFantasia" id="NomeFantasia" class="form-control" placeholder="Nome Fantasia" required="required" autofocus="autofocus">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#CNPJ').mask('99.999.999/9999-99', { reverse: true });
+    });
+</script>

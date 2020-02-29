@@ -1,0 +1,66 @@
+﻿@model Teste.Controllers.ListaEmpresasViewModel
+
+@{
+    ViewData["Title"] = "Empresas";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container text-center">
+    <div class="card card-login mx-auto mt-5">
+        <div class="card-header"><h1 class="display-2">Lista de empresas</h1></div>
+            <h1>Filtro</h1>
+            <div class="container">
+                <form asp-action="ListaEmpresas" method="post">
+                    <div class="form-group col">
+                        <div class="col-xs-3">
+                            <div class="form-label-group">
+                                <label for="FiltroNome">Nome: </label><input asp-for="FiltroNome" type="text" name="FiltroNome" id="FiltroNome" class="form-control" autofocus="autofocus">
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="form-label-group">
+                                <label for="FiltroCNPJ">CNPJ: </label><input asp-for="FiltroCNPJ" type="text" name="FiltroCNPJ" id="FiltroCNPJ" class="form-control" autofocus="autofocus">
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <div class="form-label-group">
+                                <label for="FiltroUf">Uf: </label><input asp-for="FiltroUf" type="text" name="FiltroUf" id="FiltroUf" class="form-control" autofocus="autofocus">
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success">Filtrar</button>
+                </form>
+            </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Nome Fantasia</th>
+                            <th>UF</th>
+                            <th>CNPJ</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Nome Fantasia</th>
+                            <th>UF</th>
+                            <th>CNPJ</th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+                        @foreach (var empresa in Model.Empresas)
+                        {
+                            <tr id="@empresa.Id">
+                                <td>@empresa.NomeFantasia</td>
+                                <td>@empresa.UF</td>
+                                <td>@empresa.CNPJ</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
